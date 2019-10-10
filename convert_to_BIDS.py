@@ -11,8 +11,8 @@
 import os,shutil,re,json,csv,argparse
 
 def get_parameters():
-    parser = argparse.ArgumentParser(description='This script is used for '
-                                     'aranging sct_large into BIDS compatible mode')
+    parser = argparse.ArgumentParser(description='This script is used to '
+                                     'arrange data under /usr/Spinal_Cord_Data/Tumor into BIDS compatible mode')
     parser.add_argument("-d", "--data",
                         help="Path to dataset directory",
                         required=True)
