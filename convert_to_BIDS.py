@@ -1,6 +1,11 @@
 # This script serves to reorganize the data from /usr/Spinal_Cord_Data/Tumor into BIDS dataset
-# located under /usr/Spinal_Cord_Data/Tumor_BIDS
+# located under /usr/Spinal_Cord_Data/Tumor_BIDS .
+#
+#  The script merges together the "BIDS" datasets Astrocytoma_144_BIDS, Ependymoma_393_BIDS, Hemandioblastoma_264_BIDS 
+# into a single BIDS dataset.
+#
 # To use simply call python BIDS_data_china -d /usr/Spinal_Cord_Data/Tumor
+#
 # Created by: Alexandru Foias 
 
 import os,shutil,re,json,csv,argparse
@@ -36,6 +41,9 @@ def main(path_data):
                 '_T1w.nii.gz':('_T1w.nii.gz',''),
                 '_T2w.nii.gz':('_T2w.nii.gz',''),
                 }
+    tumor_dict = {'Astr':'Astrocytoma',
+                  'Epen': 'Ependymoma',
+                  'Hema': 'Hemandioblastoma'}
     #Rearrange data into BIDS format
     for cwd, dirs, files in os.walk(rootDataPath):
         for file in files:
@@ -69,6 +77,10 @@ def main(path_data):
                 "age": {
                     "LongName": "Participant age",
                     "Description": "yy"
+                },
+                "tumor_type":{
+                    "LongName": "Tumor type",
+                    "Description": "yy"
                 }
                 }]
     # Save participants.json
@@ -94,12 +106,13 @@ def main(path_data):
             row_participants.append(dirs)
             row_participants.append('-')
             row_participants.append('-')
+            row_participants.append(tumor_dict[dirs.split('-')[1][0:4]])
             participants.append(row_participants)
             
     # # Save participants.tsv
     with open(participants_tsvFILENAME, 'w') as tsv_file:
         tsv_writer = csv.writer(tsv_file, delimiter='\t', lineterminator='\n')
-        tsv_writer.writerow(["participant_id", "sex", "age"])
+        tsv_writer.writerow(["participant_id", "sex", "age", "tumor_type"])
         for item in participants:
             tsv_writer.writerow(item)
     #Export sidecar json 
