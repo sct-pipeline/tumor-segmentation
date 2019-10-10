@@ -25,44 +25,16 @@ SUBJECT=$1
 FILEPARAM=$2
 
 
-# FUNCTIONS - Unused for now
+# FUNCTIONS 
 # ==============================================================================
 
-# Check if manual label already exists. If it does, copy it locally. If it does
-# not, perform labeling.
-label_if_does_not_exist(){
+# Crop image around spinal cord
+crop_image_around_sc(){
   local file="$1"
-  local file_seg="$2"
-  # Update global variable with segmentation file name
-  FILELABEL="${file}_labels"
-  if [ -e "${PATH_SEGMANUAL}/${file}_labels-manual.nii" ]; then
-    echo "Found manual label: ${PATH_SEGMANUAL}/${file}_labels-manual.nii"
-    rsync -avzh "${PATH_SEGMANUAL}/${file}_labels-manual.nii" ${FILELABEL}.nii
-  else
-    # Generate labeled segmentation
-    sct_label_vertebrae -i ${file}.nii -s ${file_seg}.nii -c t1 -qc ${PATH_QC} -qc-subject ${SUBJECT}
-    # Create labels in the cord at C2 and C3 mid-vertebral levels
-    sct_label_utils -i ${file_seg}_labeled.nii -vert-body 2,3 -o ${FILELABEL}.nii
-  fi
+	sct_create_mask -i ${file}.nii.gz -p centerline,${file}.nii.gz -o mask_${file}.nii.gz -size 45mm
+	sct_crop_image -i ${file}.nii.gz -m mask_${file}.nii.gz -o ${file}.nii.gz
+	rm mask_${file}.nii.gz
 }
-
-# Check if manual segmentation already exists. If it does, copy it locally. If
-# it does not, perform seg.
-segment_if_does_not_exist(){
-  local file="$1"
-  local contrast="$2"
-  # Update global variable with segmentation file name
-  FILESEG="${file}_seg"
-  if [ -e "${PATH_SEGMANUAL}/${FILESEG}-manual.nii" ]; then
-    echo "Found manual segmentation: ${PATH_SEGMANUAL}/${FILESEG}-manual.nii"
-    rsync -avzh "${PATH_SEGMANUAL}/${FILESEG}-manual.nii" ${FILESEG}.nii
-    sct_qc -i ${file}.nii -s ${FILESEG}.nii -p sct_deepseg_sc -qc ${PATH_QC} -qc-subject ${SUBJECT}
-  else
-    # Segment spinal cord
-    sct_deepseg_sc -i ${file}.nii -c $contrast -qc ${PATH_QC} -qc-subject ${SUBJECT}
-  fi
-}
-
 
 # SCRIPT STARTS HERE
 # ==============================================================================
@@ -73,25 +45,26 @@ cd $PATH_RESULTS
 mkdir -p data
 cd data
 cp -r $PATH_DATA/$SUBJECT .
+cp -r $PATH_DATA/derivatives .
 # Go to data folder
 cd $SUBJECT/anat/
 # Setup file names
-file_t2w=${SUBJECT}_T2w.nii.gz
-file_t1w=${SUBJECT}_T1w.nii.gz
+file_t2w=${SUBJECT}_T2w
+file_t1w=${SUBJECT}_T1w
 
-sct_deepseg_sc -i ${file_t1w} -c t1 -qc ${PATH_QC} -qc-subject ${SUBJECT}
-sct_deepseg_sc -i ${file_t2w} -c t2 -qc ${PATH_QC} -qc-subject ${SUBJECT}
+crop_image_around_sc $file_t1w
+crop_image_around_sc $file_t2w
 
-cd ../manual_label
+rm -r tmp
 
-# Setup file names
-file_t2w_lesion_seg=${SUBJECT}_T2_manual_lesion_label.nii.gz
-file_t1w_lesion_seg=${SUBJECT}_T1_manual_lesion_label.nii.gz
+cd $PATH_DATA/derivatives/labels/$SUBJECT/anat/
 
-# Segmentations are different for T1w and T2w images, union of both segmentation is created
+file_t2w=${SUBJECT}_T2w_seg-manual
+file_t1w=${SUBJECT}_T1w_seg-manual
 
-sct_maths -i ${file_t2w_lesion_seg} -add ${file_t1w_lesion_seg} -o tmp.nii.gz
-sct_maths -i tmp.nii.gz -otsu 1 -o ${SUBJECT}_lesion_label.nii.gz
-rm tmp.nii.gz
+crop_image_around_sc $file_t1w
+crop_image_around_sc $file_t2w
 
 
+
+rm -r tmp
