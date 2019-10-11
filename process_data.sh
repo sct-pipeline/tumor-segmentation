@@ -60,8 +60,8 @@ rm -r tmp
 
 cd $PATH_DATA/derivatives/labels/$SUBJECT/anat/
 
-file_t2w=${SUBJECT}_T2w_seg-manual
-file_t1w=${SUBJECT}_T1w_seg-manual
+file_t2w=${SUBJECT}_T2w_seg-tumor
+file_t1w=${SUBJECT}_T1w_seg-tumor
 
 crop_image_around_sc $file_t1w t1
 crop_image_around_sc $file_t2w t2
