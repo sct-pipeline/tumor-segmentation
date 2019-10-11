@@ -31,9 +31,10 @@ FILEPARAM=$2
 # Crop image around spinal cord
 crop_image_around_sc(){
   local file="$1"
-	sct_create_mask -i ${file}.nii.gz -p centerline,${file}.nii.gz -o mask_${file}.nii.gz -size 45mm
+	local contrast="$2"
+	sct_get_centerline -i ${file}.nii.gz -c ${contrast}
+	sct_create_mask -i ${file}.nii.gz -p centerline,${file}_centerline.nii.gz -o mask_${file}.nii.gz -size 40
 	sct_crop_image -i ${file}.nii.gz -m mask_${file}.nii.gz -o ${file}.nii.gz
-	rm mask_${file}.nii.gz
 }
 
 # SCRIPT STARTS HERE
@@ -52,8 +53,8 @@ cd $SUBJECT/anat/
 file_t2w=${SUBJECT}_T2w
 file_t1w=${SUBJECT}_T1w
 
-crop_image_around_sc $file_t1w
-crop_image_around_sc $file_t2w
+crop_image_around_sc $file_t1w t1
+crop_image_around_sc $file_t2w t2
 
 rm -r tmp
 
@@ -62,8 +63,8 @@ cd $PATH_DATA/derivatives/labels/$SUBJECT/anat/
 file_t2w=${SUBJECT}_T2w_seg-manual
 file_t1w=${SUBJECT}_T1w_seg-manual
 
-crop_image_around_sc $file_t1w
-crop_image_around_sc $file_t2w
+crop_image_around_sc $file_t1w t1
+crop_image_around_sc $file_t2w t2
 
 
 
