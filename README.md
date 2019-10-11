@@ -25,9 +25,9 @@ data/
 More information for converting and organizing BIDS data is available [here](https://spine-generic.readthedocs.io/en/latest/documentation.html#data-conversion-dicom-to-bids).
 
 ## Preprocessing Data
-Currently, the preprocessing scripts segment the spinal cord of each patient and generates nifty files containing the union of T1w and T2w tumor segmentations. 
+Currently, the preprocessing script crops the images around the spinal cord.
 
-To prepare the data for training, run the following line ```./preprocess_tumor_data.sh``` . This will process the 3 BIDS repositories corresponding to each tumor type: astrocytoma, ependymoma and hemangioblastoma. To process each tumor type separately, run ```sct_run_batch parameters_<TUMOR_TYPE>.sh process_data.sh```. Modify the parameter files if needed to select the images to be processed.
+To prepare the data for training, run the following line ```sct_run_batch parameters/parameters.sh process_data.sh``` . This will process the BIDS repository specified in the parameters.sh file. Modify the parameters file if needed to select the images to be processed.
 
 ## Code
 
