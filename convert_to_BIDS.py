@@ -30,31 +30,31 @@ def main(path_data):
     rootBIDSDataPath_init = '/'.join(rootDataPath.split('/')[0:-1])
     rootBIDSDataPath = rootBIDSDataPath_init + '/' + rootDataPath.split('/')[-1] + '_BIDS'
     dataset_description_jsonFILENAME = os.path.join(rootBIDSDataPath, 'dataset_description.json')
-    participants_jsonFILENAME = os.path.join(rootBIDSDataPath,'participants.json')
+    participants_jsonFILENAME = os.path.join(rootBIDSDataPath, 'participants.json')
     participants_tsvFILENAME = os.path.join(rootBIDSDataPath, 'participants.tsv')
 
     if not os.path.isdir(rootBIDSDataPath):
         os.mkdir(rootBIDSDataPath)
 
-    img_dict = {'_T1_manual_lesion_label.nii.gz':('_T1w_seg-tumor.nii.gz','derivatives/labels'),
-                '_T2_manual_lesion_label.nii.gz':('_T2w_seg-tumor.nii.gz','derivatives/labels'),
-                '_T1w.nii.gz':('_T1w.nii.gz',''),
-                '_T2w.nii.gz':('_T2w.nii.gz',''),
+    img_dict = {'_T1_manual_lesion_label.nii.gz': ('_T1w_seg-tumor.nii.gz','derivatives/labels'),
+                '_T2_manual_lesion_label.nii.gz': ('_T2w_seg-tumor.nii.gz','derivatives/labels'),
+                '_T1w.nii.gz': ('_T1w.nii.gz', ''),
+                '_T2w.nii.gz': ('_T2w.nii.gz', ''),
                 }
-    tumor_dict = {'Astr':'Astrocytoma',
+    tumor_dict = {'Astr': 'Astrocytoma',
                   'Epen': 'Ependymoma',
-                  'Hema': 'Hemandioblastoma'}
-    #Rearrange data into BIDS format
-    for cwd, dirs, files in os.walk(rootDataPath):
+                  'Hema': 'Hemangioblastoma'}
+    # Rearrange data into BIDS format
+    for cwd, dirs, files in sorted(os.walk(rootDataPath)):
         for file in files:
-            file_path = os.path.join(cwd,file)
+            file_path = os.path.join(cwd, file)
             
             for img_key in img_dict.keys():
                 if file.endswith(img_key):
                     sub_full = str(file.split('_')[0])
                     sub_id = (re.findall('\d+', sub_full ))
                     sub_type = cwd.split('/')[-3].split('_')[0][0:4]
-                    sub_id_new = "sub-"+ sub_type + sub_id[0]
+                    sub_id_new = "sub-" + sub_type + sub_id[0]
                     sub_new_folder = os.path.join(rootBIDSDataPath,img_dict[img_key][1],sub_id_new , "anat")
                     if not os.path.exists(sub_new_folder):
                         os.makedirs(sub_new_folder)
