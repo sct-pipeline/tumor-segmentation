@@ -4,12 +4,12 @@
 # Set every other path relative to this path for convenience
 # Do not add "/" at the end. Path should be absolute (i.e. do not use "~")
 # Example:
-export PATH_PARENT="/usr/Spine_Cord_Data/Tumor_BIDS"
+export PATH_PARENT="/usr/Spine_Cord_Data"
 
 
 # Path to the folder containing the BIDS dataset.
 # Do not add "/" at the end. Path should be absolute (i.e. do not use "~")
-export PATH_DATA="$PATH_PARENT"
+export PATH_DATA="$PATH_PARENT/Tumor_BIDS"
 
 # If each subject folder starts with a prefix, indicate it here. Otherwise, set to ""
 SUBJECT_PREFIX="sub-"
@@ -24,13 +24,13 @@ export PATH_LOG="$PATH_RESULTS/log"
 # export PATH_SEGMANUAL="$PATH_PARENT/seg_manual"
 
 # If you only want to process specific subjects, uncomment and list them here:
-# export ONLY_PROCESS_THESE_SUBJECTS=(
-# "sub-Astr144_T1w"
-# )
+export ONLY_PROCESS_THESE_SUBJECTS=(
+ "sub-Astr144"
+)
 
 # List of images to exclude
 # export TO_EXCLUDE=(
-#   "sub-Epen393_T2w"
+#   "sub-Epen393"
 # )
 
 # Number of jobs for parallel processing
