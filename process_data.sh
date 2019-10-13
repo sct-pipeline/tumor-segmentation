@@ -47,8 +47,6 @@ file_mask=`pwd`/mask_${file_t2w}.nii.gz
 sct_crop_image -i ${file_t1w}.nii.gz -m ${file_mask} -o ${file_t1w}.nii.gz
 sct_crop_image -i ${file_t2w}.nii.gz -m ${file_mask} -o ${file_t2w}.nii.gz
 
-rm -r tmp
-
 cd $PATH_RESULTS/data/derivatives/labels/$SUBJECT/anat/
 
 file_t2w_seg=${SUBJECT}_T2w_seg-tumor

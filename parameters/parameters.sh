@@ -24,9 +24,9 @@ export PATH_LOG="$PATH_RESULTS/log"
 # export PATH_SEGMANUAL="$PATH_PARENT/seg_manual"
 
 # If you only want to process specific subjects, uncomment and list them here:
-export ONLY_PROCESS_THESE_SUBJECTS=(
- "sub-Astr144"
-)
+# export ONLY_PROCESS_THESE_SUBJECTS=(
+# "sub-Astr144"
+# )
 
 # List of images to exclude
 # export TO_EXCLUDE=(
