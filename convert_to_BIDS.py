@@ -36,8 +36,8 @@ def main(path_data):
     if not os.path.isdir(rootBIDSDataPath):
         os.mkdir(rootBIDSDataPath)
 
-    img_dict = {'_T1_manual_lesion_label.nii.gz': ('_T1w_seg-tumor.nii.gz','derivatives/labels'),
-                '_T2_manual_lesion_label.nii.gz': ('_T2w_seg-tumor.nii.gz','derivatives/labels'),
+    img_dict = {
+                '_T2_manual_lesion_label.nii.gz': ('_seg-tumor.nii.gz','derivatives/labels'),
                 '_T1w.nii.gz': ('_T1w.nii.gz', ''),
                 '_T2w.nii.gz': ('_T2w.nii.gz', ''),
                 }
@@ -113,17 +113,17 @@ def main(path_data):
     with open(participants_tsvFILENAME, 'w') as tsv_file:
         tsv_writer = csv.writer(tsv_file, delimiter='\t', lineterminator='\n')
         tsv_writer.writerow(["participant_id", "sex", "age", "tumor_type"])
-        for item in participants:
+        for item in sorted(participants):
             tsv_writer.writerow(item)
     #Export sidecar json 
-    for cwd, dirs, files in os.walk(rootBIDSDataPath):
-        for file in files:
-            if file.endswith('.nii.gz'):
-                    currentFilePath = os.path.join(cwd + '/' + file)
-                    jsonAdjPath = os.path.join(cwd + '/' + file.split('.')[0]+'.json')
-                    if os.path.exists(os.path.join(cwd + '/' + file.split('.')[0]+'.json'))==False:
-                        print ('Warning - Missing: ' +  jsonAdjPath)
-                        os.system('touch ' + jsonAdjPath)
+    # for cwd, dirs, files in os.walk(rootBIDSDataPath):
+    #     for file in files:
+    #         if file.endswith('.nii.gz'):
+    #                 currentFilePath = os.path.join(cwd + '/' + file)
+    #                 jsonAdjPath = os.path.join(cwd + '/' + file.split('.')[0]+'.json')
+    #                 if os.path.exists(os.path.join(cwd + '/' + file.split('.')[0]+'.json'))==False:
+    #                    print ('Warning - Missing: ' +  jsonAdjPath)
+    #                    os.system('touch ' + jsonAdjPath)
 if __name__ == "__main__":
     args = get_parameters()
     main(args.data)

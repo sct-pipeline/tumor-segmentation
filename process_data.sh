@@ -35,22 +35,20 @@ cd data
 
 cp -r $PATH_DATA/$SUBJECT .
 cp -r $PATH_DATA/derivatives/labels/$SUBJECT $PATH_RESULTS/data/derivatives/labels
-# Go to data folder
-cd $SUBJECT/anat/
-# Setup file names
-file_t2w=${SUBJECT}_T2w
-file_t1w=${SUBJECT}_T1w
-
-sct_get_centerline -i ${file_t2w}.nii.gz -c t2
-sct_create_mask -i ${file_t2w}.nii.gz -p centerline,${file_t2w}_centerline.nii.gz -o mask_${file_t2w}.nii.gz
-file_mask=`pwd`/mask_${file_t2w}.nii.gz
-sct_crop_image -i ${file_t1w}.nii.gz -m ${file_mask} -o ${file_t1w}.nii.gz
-sct_crop_image -i ${file_t2w}.nii.gz -m ${file_mask} -o ${file_t2w}.nii.gz
 
 cd $PATH_RESULTS/data/derivatives/labels/$SUBJECT/anat/
 
 file_t2w_seg=${SUBJECT}_T2w_seg-tumor
 file_t1w_seg=${SUBJECT}_T1w_seg-tumor
+#
+sct_resample -i ${file_t2w_seg}.nii.gz -vox 512x512x11 -x spline -o ${file_t2w_seg}.nii.gz
+sct_resample -i ${file_t1w_seg}.nii.gz -vox 512x512x11 -x spline -o ${file_t1w_seg}.nii.gz
 
-sct_crop_image -i ${file_t1w_seg}.nii.gz -m ${file_mask} -o ${file_t1w_seg}.nii.gz
-sct_crop_image -i ${file_t2w_seg}.nii.gz -m ${file_mask} -o ${file_t2w_seg}.nii.gz
+# Go to data folder
+cd $PATH_RESULTS/data/$SUBJECT/anat/
+## Setup file names
+file_t2w=${SUBJECT}_T2w
+file_t1w=${SUBJECT}_T1w
+sct_resample -i ${file_t2w}.nii.gz -vox 512x512x11 -x spline -o ${file_t2w}.nii.gz
+sct_resample -i ${file_t1w}.nii.gz -vox 512x512x11 -x spline -o ${file_t1w}.nii.gz
+

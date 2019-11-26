@@ -4,12 +4,12 @@
 # Set every other path relative to this path for convenience
 # Do not add "/" at the end. Path should be absolute (i.e. do not use "~")
 # Example:
-export PATH_PARENT="/usr/Spine_Cord_Data"
+export PATH_PARENT="/home/GRAMES.POLYMTL.CA/anlemj/results/dataset"
 
 
 # Path to the folder containing the BIDS dataset.
 # Do not add "/" at the end. Path should be absolute (i.e. do not use "~")
-export PATH_DATA="$PATH_PARENT/Tumor_BIDS"
+export PATH_DATA="$PATH_PARENT/sctumor_BIDS"
 
 # If each subject folder starts with a prefix, indicate it here. Otherwise, set to ""
 SUBJECT_PREFIX="sub-"
