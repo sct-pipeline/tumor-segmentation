@@ -4,19 +4,21 @@
 # Set every other path relative to this path for convenience
 # Do not add "/" at the end. Path should be absolute (i.e. do not use "~")
 # Example:
-export PATH_PARENT="/home/GRAMES.POLYMTL.CA/anlemj/results/dataset"
+
+export PATH_PARENT="/home/andreanne/Documents/dataset"
 
 
 # Path to the folder containing the BIDS dataset.
 # Do not add "/" at the end. Path should be absolute (i.e. do not use "~")
-export PATH_DATA="$PATH_PARENT/sctumor_BIDS"
+export PATH_DATA="$PATH_PARENT/new_labels320/data"
 
 # If each subject folder starts with a prefix, indicate it here. Otherwise, set to ""
 SUBJECT_PREFIX="sub-"
 
 # Paths to where to save the new dataset.
 # Do not add "/" at the end. Path should be absolute (i.e. do not use "~")
-export PATH_RESULTS="$PATH_PARENT/results"
+# Endroit où seront copiees les données
+export PATH_RESULTS="$PATH_PARENT/reg"
 export PATH_QC="$PATH_RESULTS/qc"
 export PATH_LOG="$PATH_RESULTS/log"
 
@@ -36,8 +38,8 @@ export PATH_LOG="$PATH_RESULTS/log"
 # Number of jobs for parallel processing
 # To know the number of available cores, run: getconf _NPROCESSORS_ONLN
 # We recommend not using more than half the number of available cores.
-export JOBS=4
+export JOBS=1
 
 # Number of jobs for ANTs routine. Set to 1 if ANTs functions crash when CPU saturates.
-export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=4
+export ITK_GLOBAL_DEFAULT_NUMBER_OF_THREADS=1
 
