@@ -28,6 +28,17 @@ The prefixes 'Astr', 'Epen' and 'Hema' respectively correspond to the tumor type
 
 More information for converting and organizing BIDS data is available [here](https://spine-generic.readthedocs.io/en/latest/documentation.html#data-conversion-dicom-to-bids).
 
+## Run tumor segmentation model
+1. Install SCT software if it's not already on your computer.  
+  
+2. Download the model. This step should be only be done once:  
+`sct_deepseg -install-model t2_tumor`  
+  
+3. Apply the model on your data:  
+`sct_deepseg -i path/to/img.nii.gz -model t2_tumor`
+  
+To run the model on all images from a BIDS dataset, consult the [notebook](https://github.com/sct-pipeline/tumor-segmentation/blob/master/tutorial/Spinal%20cord%20tumor%20segmentation.ipynb) located in the tutorial folder.
+
 ## Preprocessing Data
 Currently, the preprocessing script crops the images around the spinal cord.
 
