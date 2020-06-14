@@ -37,7 +37,7 @@ More information for converting and organizing BIDS data is available [here](htt
 3. Apply the model on your data:  
 `sct_deepseg -i path/to/img.nii.gz -model t2_tumor`
   
-To run the model on all images from a BIDS dataset, consult the [notebook](https://github.com/sct-pipeline/tumor-segmentation/blob/master/tutorial/Spinal%20cord%20tumor%20segmentation.ipynb) located in the tutorial folder.
+To run the model on all images from a BIDS dataset, consult the [notebook](https://github.com/sct-pipeline/tumor-segmentation/blob/master/tutorial/spinal_cord_tumor_segmentation.ipynb) located in the tutorial folder.
 
 ## Preprocessing Data
 Currently, the preprocessing script crops the images around the spinal cord.
